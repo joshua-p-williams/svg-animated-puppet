@@ -1,0 +1,31 @@
+{
+  "name": "svg-animated-puppet",
+  "version": "1.0.0",
+  "description": "An animated SVG puppet using socket.io and node. Created as an interactive puppet for the children's ministry at my church.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jwilliamsnephos/svg-animated-puppet.git"
+  },
+  "keywords": [
+    "Node.js",
+    "Express.js",
+    "Socket.IO",
+    "Redis",
+    "SVG"
+  ],
+  "author": "Joshua Williams",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jwilliamsnephos/svg-animated-puppet/issues"
+  },
+  "homepage": "https://github.com/jwilliamsnephos/svg-animated-puppet#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  }
+}
