@@ -20,9 +20,6 @@ $(function () {
           url: '/time_machine',
           type: 'POST',
           dataType: 'json',
-          data: {
-              'count': 5
-          },
           success: function (response) {
             console.log(response);
           }

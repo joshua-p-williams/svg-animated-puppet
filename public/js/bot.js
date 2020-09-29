@@ -61,6 +61,10 @@ let talk = function (sentance) {
     const words = sentance.split(' ');
     let nextDelay = 0;
     if (words.length) {
+
+      // Always start with the mouth closed, and make sure to finish an existing animation timelines
+      mouth.animate().plot(mouthClosed).timeline().finish();
+
       for (let wordIndex = 0; wordIndex < words.length; wordIndex++) {
         let word = words[wordIndex];
         let syllables = syllableCount(word);
@@ -69,24 +73,10 @@ let talk = function (sentance) {
           // How long should it take to say the syllable
           let duration = 80 - (4 * syllableIndex);
 
-          mouth.animate({
-            duration: duration,
-            delay: nextDelay,
-            when: 'after',
-            swing: true,
-            times: 1,
-            wait: 0
-          })
-          .plot(mouthOpened)
-          .animate({
-            duration: duration,
-            delay: 0,
-            when: 'after',
-            swing: true,
-            times: 1,
-            wait: 0
-          })
-          .plot(mouthClosed).after(function () {
+          mouth
+          .animate(duration, nextDelay, 'after').plot(mouthOpened)
+          .animate(duration, 0, 'after').plot(mouthClosed)
+          .after(function () {
             console.log(word + ' - syllable ' + (syllableIndex + 1));
           });
 
@@ -105,24 +95,91 @@ let talk = function (sentance) {
   }
 };
 
-let timeMachine = function (times) {
-  satelliteDish.animate(1000, '<>').transform({
-    rotate: -110
-  }).loop(times * 2, true, 0).after(function () {
-    satelliteDish.animate(1000, '<>').transform({
-      rotate: 0
-    })
-  })
+let timeMachine = function () {
 
-  leftCheek.animate(500, '<>').transform({
-    rotate: 180
-  }).loop(times * 4, true);
+  // Make sure to finish an existing animation timelines
+  satelliteDish.animate().transform({rotate: 360}).timeline().finish();
+  leftCheek.animate().timeline().finish();
+  rightCheek.animate().timeline().finish();
+  botBody.animate().timeline().finish();
 
-  rightCheek.animate(500, '<>').transform({
-    rotate: 180
-  }).loop(times * 4, true);
+  satelliteDish
+  .animate(1000, 0, 'after').transform({rotate: -110})
+  .animate(1000, 0, 'after').transform({rotate: 360})
+  .animate(1000, 0, 'after').transform({rotate: -110})
+  .animate(1000, 0, 'after').transform({rotate: 360})
+  .animate(1000, 0, 'after').transform({rotate: -110})
+  .animate(1000, 0, 'after').transform({rotate: 360})
+  .animate(1000, 0, 'after').transform({rotate: -110})
+  .animate(1000, 0, 'after').transform({rotate: 360})
+  .animate(1000, 0, 'after').transform({rotate: -110})
+  .animate(1000, 0, 'after').transform({rotate: 360});
 
-  botBody.animate(1000, '<>').fill(green).loop(times * 2, true, 0);
+  leftCheek
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 })
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 })
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 })
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 })
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 })
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 })
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 })
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 })
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 })
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 });
+
+  rightCheek
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 })
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 })
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 })
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 })
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 })
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 })
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 })
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 })
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 })
+  .animate(500, 0, 'after').transform({ rotate: 180 })
+  .animate(500, 0, 'after').transform({ rotate: 360 });
+
+  botBody
+  .animate(500, 0, 'after').fill(green)
+  .animate(500, 0, 'after').fill(blueGreen)
+  .animate(500, 0, 'after').fill(green)
+  .animate(500, 0, 'after').fill(blueGreen)
+  .animate(500, 0, 'after').fill(green)
+  .animate(500, 0, 'after').fill(blueGreen)
+  .animate(500, 0, 'after').fill(green)
+  .animate(500, 0, 'after').fill(blueGreen)
+  .animate(500, 0, 'after').fill(green)
+  .animate(500, 0, 'after').fill(blueGreen)
+  .animate(500, 0, 'after').fill(green)
+  .animate(500, 0, 'after').fill(blueGreen)
+  .animate(500, 0, 'after').fill(green)
+  .animate(500, 0, 'after').fill(blueGreen)
+  .animate(500, 0, 'after').fill(green)
+  .animate(500, 0, 'after').fill(blueGreen)
+  .animate(500, 0, 'after').fill(green)
+  .animate(500, 0, 'after').fill(blueGreen)
+  .animate(500, 0, 'after').fill(green)
+  .animate(500, 0, 'after').fill(blueGreen);
 
 };
 
@@ -208,16 +265,12 @@ SVG.on(document, 'DOMContentLoaded', function() {
     rightIris.animate(100, '<>').attr(rightIrisPositions[irisPosition])
     leftIris.animate(100, '<>').attr(leftIrisPositions[irisPosition])
   }, 2000);
-
-  //timeMachine(5);
-
-  //talk("Hello everybody. Welcome to Three Creeks Baptist Church. Hello everybody. Welcome to Three Creeks Baptist Church. Hello everybody. Welcome to Three Creeks Baptist Church.");
 });
 
 socket.on('speak', function (message) {
   talk(message);
 });  
 
-socket.on('time-machine', function (count) {
-  timeMachine(count);
+socket.on('time-machine', function () {
+  timeMachine();
 });  

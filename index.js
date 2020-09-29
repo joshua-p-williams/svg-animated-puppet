@@ -42,12 +42,11 @@ app.post('/send_message', function (req, res) {
 });
 
 app.post('/time_machine', function (req, res) {
-  var count = req.body.count;
-  console.log('Time travel initiated - ' + count);
+  console.log('Time travel initiated');
   res.send({
     'status': 'OK'
   });
-  io.emit('time-machine', count);
+  io.emit('time-machine');
 });
 
 
