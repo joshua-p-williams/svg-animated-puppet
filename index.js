@@ -38,7 +38,23 @@ app.post('/send_message', function (req, res) {
   res.send({
     'status': 'OK'
   });
+
   io.emit('speak', message);
+
+  const { exec } = require("child_process");
+
+  exec('espeak -v mb-en1+f3 -s 100 "' + message + '"', (error, stdout, stderr) => {
+      if (error) {
+          console.log(`error: ${error.message}`);
+          return;
+      }
+      if (stderr) {
+          console.log(`stderr: ${stderr}`);
+          return;
+      }
+      console.log(`stdout: ${stdout}`);
+  });
+
 });
 
 app.post('/time_machine', function (req, res) {

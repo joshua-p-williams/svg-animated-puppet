@@ -71,7 +71,7 @@ let talk = function (sentance) {
 
         for (let syllableIndex = 0; syllableIndex < syllables; syllableIndex++) {
           // How long should it take to say the syllable
-          let duration = 80 - (4 * syllableIndex);
+          let duration = 80 - (2 * syllableIndex);
 
           mouth
           .animate(duration, nextDelay, 'after').plot(mouthOpened)
@@ -82,12 +82,12 @@ let talk = function (sentance) {
 
           nextDelay = 0;
           if (syllableIndex >= syllables -1) {
-            nextDelay = 110;
+            nextDelay = 55;
           }
         }
 
         // How long to pause before the next word
-        if (word.includes(".")) {
+        if (word.includes(".") || word.includes(":") || word.includes(",")) {
           nextDelay = 600;
         }
       }
