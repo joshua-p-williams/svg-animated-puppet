@@ -6,6 +6,38 @@ var io = require('socket.io')(http);
 
 var port = process.env.PORT || 8080;
 
+let speak = function (message) {
+  const { exec } = require("child_process");
+
+  exec('espeak -v mb-en1+f3 -s 100 "' + message + '"', (error, stdout, stderr) => {
+      if (error) {
+          console.log(`error: ${error.message}`);
+          return;
+      }
+      if (stderr) {
+          console.log(`stderr: ${stderr}`);
+          return;
+      }
+      console.log(`stdout: ${stdout}`);
+  });
+};
+
+let sound = function (file) {
+  const { exec } = require("child_process");
+
+  exec('aplay public/sound/' + file, (error, stdout, stderr) => {
+      if (error) {
+          console.log(`error: ${error.message}`);
+          return;
+      }
+      if (stderr) {
+          console.log(`stderr: ${stderr}`);
+          return;
+      }
+      console.log(`stdout: ${stdout}`);
+  });
+};
+
 // Start the Server
 http.listen(port, function () {
   console.log('Server Started. Listening on *:' + port);
@@ -32,7 +64,17 @@ app.get('/bot', function (req, res) {
 
 
 // API
-app.post('/send_message', function (req, res) {
+app.post('/send_command', function (req, res) {
+  var command = req.body.command;
+  console.log(command);
+  res.send({
+    'status': 'OK'
+  });
+
+  io.emit('command', command);
+});
+
+app.post('/send_speech', function (req, res) {
   var message = req.body.message;
   console.log(message);
   res.send({
@@ -40,24 +82,11 @@ app.post('/send_message', function (req, res) {
   });
 
   io.emit('speak', message);
-
-  const { exec } = require("child_process");
-
-  exec('espeak -v mb-en1+f3 -s 100 "' + message + '"', (error, stdout, stderr) => {
-      if (error) {
-          console.log(`error: ${error.message}`);
-          return;
-      }
-      if (stderr) {
-          console.log(`stderr: ${stderr}`);
-          return;
-      }
-      console.log(`stdout: ${stdout}`);
-  });
-
+  speak(message);
 });
 
 app.post('/time_machine', function (req, res) {
+  sound('time_machine.wav');
   console.log('Time travel initiated');
   res.send({
     'status': 'OK'

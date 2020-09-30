@@ -48,7 +48,7 @@ const leftIrisPositions = [
   { cx: 414, cy: 236, r: 19.79899 }, // Left
 ];
 
-let syllableCount = function (word) {
+const syllableCount = function (word) {
   word = word.toLowerCase(); //word.downcase!
   if (word.length <= 3) { return 1; } //return 1 if word.length <= 3
   word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, ''); //word.sub!(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '')
@@ -56,7 +56,7 @@ let syllableCount = function (word) {
   return word.match(/[aeiouy]{1,2}/g).length; //word.scan(/[aeiouy]{1,2}/).size
 };
 
-let talk = function (sentance) {
+const talk = function (sentance) {
   if (mouth && sentance) {
     const words = sentance.split(' ');
     let nextDelay = 0;
@@ -95,7 +95,7 @@ let talk = function (sentance) {
   }
 };
 
-let timeMachine = function () {
+const timeMachine = function () {
 
   // Make sure to finish an existing animation timelines
   satelliteDish.animate().transform({rotate: 360}).timeline().finish();
@@ -266,6 +266,12 @@ SVG.on(document, 'DOMContentLoaded', function() {
     leftIris.animate(100, '<>').attr(leftIrisPositions[irisPosition])
   }, 2000);
 });
+
+socket.on('command', function (command) {
+  if (command === 'reset') {
+    location.reload(true);
+  }
+});  
 
 socket.on('speak', function (message) {
   talk(message);
