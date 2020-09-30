@@ -10,3 +10,7 @@ body {
   justify-content: center;
   background-color: #000000;
 }
+
+#bot-svg {
+  height: 90vh;  
+}
