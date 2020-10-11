@@ -2,7 +2,9 @@
 
 This is an interactive web-based animated puppet.  It will provide one URL for the `bot`, which is an SVG image that has various animations controlled by another page `index` which contains the puppet master controls.
 
-![Bot](/public/img/bot.gif "Bot")
+![Puppet Master Controls](./public/img/puppet_master_controls.png "Puppet Master Controls")
+
+![Bot](./public/img/bot.gif "Bot")
 
 ## Technology Stack
 
