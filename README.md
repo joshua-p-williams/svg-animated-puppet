@@ -1,4 +1,13 @@
-# svg-animated-puppet
+# SVG Animated Puppet
+
+This is an interactive web-based animated puppet.  It will provide one URL for the `bot`, which is an SVG image that has various animations controlled by another page `index` which contains the puppet master controls.
+
+The technology stack used includes
+
+* [Node.js](https://nodejs.org/en/) - For web services and server side operations
+* [Express.js](https://expressjs.com/) - As the web application framework
+* [Socket.IO](https://socket.io/) - For realtime socket interactions between the `bot` and the `puppet master controls`
+* [SVG](https://svgjs.com/docs/3.0/) - As our SVG image manipulation framework
 
 
 # Speech / Voices
