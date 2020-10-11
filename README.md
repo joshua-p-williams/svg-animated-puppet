@@ -6,6 +6,19 @@ This is an interactive web-based animated puppet.  It will provide one URL for t
 
 ![Bot](./public/img/bot.gif "Bot")
 
+## Running in Development
+
+To run locally on your machine, make sure you have `node` and `npm` installed, then run the following.
+
+```bash
+git clone https://github.com/jwilliamsnephos/svg-animated-puppet.git
+cd svg-animated-puppet
+npm install
+npm run start
+```
+
+Now you can open a browser to [http://localhost:8080/](http://localhost:8080/), you can open the bot in aseperate browser at [http://localhost:8080/bot/](http://localhost:8080/bot/).
+
 ## Technology Stack
 
 The technology stack used includes
