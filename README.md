@@ -63,6 +63,40 @@ These instructions are for building a stand-alone puppet using a single board co
 
 The Raspberry Pi will be configured to run as a `kiosk`.  The raspberry pi can be used as a desktop computer, but we will make it so that it runs the puppet and boots up immediately to a full screen view which will be the puppets face.  We will also configure it so it will broadcast a wifi signal that can be connected to by another device which can be used to control the puppet.
 
+We will create the puppet in 4 steps;
+
+* Install Operating System
+* Configure `SVG Animated Puppet`
+* Establish Kiosk
+* Setup remote accessibility
+
 At the time of this writing the, this example was built using a Raspberry Pi running [Raspberry Pi OS Buster Desktop August 20th 2020 (2020-08-20-raspios-buster-armhf-full.zip)](https://www.raspberrypi.org/downloads/raspberry-pi-os/).  If these instructions are no longer found to be accurate, it might be possible to find updated instructions via a searching engine search using keywords such as `raspberry pi fullscreen browser kiosk`.
 
-### Installing Operating System
+### Installing / Configuring Operating System
+
+https://blog.gordonturner.com/2020/06/30/raspberry-pi-full-screen-browser-2020-05-27-raspios-buster/
+
+Refer to the [Official Instructions](https://www.raspberrypi.org/documentation/installation/installing-images/README.md) on installing the operating system for the Raspberry Pi.
+
+On first boot of the Raspberry Pi, you will be booted into the desktop and will be presented with a **Welcome to Raspberry Pi** window.  Be sure to configure your location details appropriately, 
+
+### Configure SVG Animated Puppet
+
+To set up the puppet application run the following commands.
+This will;
+
+1. Clone the application to your pi
+2. Set up port redirection
+
+> The SVG Animated puppet runs on port `8080` by default, as port `80` is considered a priviledged port requiring elevated priviledges (`sudo`) in order to run.  We will configure port `80` to redirect to port `8080`.
+
+3. Configure the puppet application to run at startup
+
+
+```bash
+cd /home/pi
+git clone https://github.com/jwilliamsnephos/svg-animated-puppet.git
+cd svg-animated-puppet
+npm install
+sudo ./scripts/configure_pi.sh
+```
