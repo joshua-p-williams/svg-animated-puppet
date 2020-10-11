@@ -14,7 +14,6 @@
     "Node.js",
     "Express.js",
     "Socket.IO",
-    "Redis",
     "SVG"
   ],
   "author": "Joshua Williams",
