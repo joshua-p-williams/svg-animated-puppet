@@ -11,7 +11,7 @@ echo "#!/bin/sh
 export PATH=\$PATH:/usr/local/bin
 export NODE_PATH=\$NODE_PATH:/usr/local/lib/node_modules
 
-case "$1" in
+case \"\$1\" in
 start)
 exec forever --sourceDir=$DIR -p $DIR index.js  #scriptarguments
 ;;
