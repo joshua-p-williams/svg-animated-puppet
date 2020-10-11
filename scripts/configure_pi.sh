@@ -23,7 +23,7 @@ echo \"Usage: /etc/init.d/puppet-service {start|stop}\"
 exit 1
 ;;
 esac
-exit 0" > $DIR/test.sh
+exit 0" > /etc/init.d/puppet-service
 
 # Make it executable
 chmod 755 /etc/init.d/puppet-service
