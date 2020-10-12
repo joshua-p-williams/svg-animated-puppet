@@ -4,11 +4,12 @@ cd $DIR
 
 # Install voices
 apt update -y
-apt install espeak --fix-missing -y
+apt install espeak-ng --fix-missing -y
 wget http://steinerdatenbank.de/software/mbrola3.0.1h_armhf.deb
 dpkg -i mbrola3.0.1h_armhf.deb
 rm mbrola3.0.1h_armhf.deb
 apt install mbrola mbrola-en1 -y
+ln -s /usr/bin/espeak-ng /usr/bin/espeak
 
 # Install the node forever script for the service
 npm install forever -g
