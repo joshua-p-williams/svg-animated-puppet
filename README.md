@@ -36,8 +36,7 @@ The speech is provided by [espeak](https://github.com/espeak-ng/espeak-ng) with 
 Install them with the following.
 
 ```bash
-sudo apt install espeak
-sudo apt-get install mbrola mbrola-en1
+sudo apt install espeak mbrola mbrola-en1
 ```
 
 ## Text to Speech Function

@@ -2,8 +2,19 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
 cd $DIR
 
+# Install voices
+apt update -y
+apt install espeak --fix-missing -y
+wget http://steinerdatenbank.de/software/mbrola3.0.1h_armhf.deb
+dpkg -i mbrola3.0.1h_armhf.deb
+apt install mbrola mbrola-en1 -y
+
 # Redirect port 80 to port 8080
 iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+iptables --wait --table nat --append OUTPUT --protocol tcp --dport 80 --jump REDIRECT --to-port 8080
+
+# Install the node forever script for the service
+npm install forever -g
 
 # Create the service
 echo "#!/bin/sh
