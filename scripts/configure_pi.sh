@@ -7,11 +7,8 @@ apt update -y
 apt install espeak --fix-missing -y
 wget http://steinerdatenbank.de/software/mbrola3.0.1h_armhf.deb
 dpkg -i mbrola3.0.1h_armhf.deb
+rm mbrola3.0.1h_armhf.deb
 apt install mbrola mbrola-en1 -y
-
-# Redirect port 80 to port 8080
-iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
-iptables --wait --table nat --append OUTPUT --protocol tcp --dport 80 --jump REDIRECT --to-port 8080
 
 # Install the node forever script for the service
 npm install forever -g
@@ -24,7 +21,7 @@ export NODE_PATH=\$NODE_PATH:/usr/local/lib/node_modules
 
 case \"\$1\" in
 start)
-exec forever --sourceDir=$DIR -p $DIR index.js  #scriptarguments
+exec forever --sourceDir=$DIR -p $DIR index.js &
 ;;
 stop)
 exec forever stop --sourceDir=$DIR index.js
@@ -41,3 +38,19 @@ chmod 755 /etc/init.d/puppet-service
 
 # Start the service
 update-rc.d puppet-service defaults
+service puppet-service start
+
+# Redirect port 80 to port 8080
+iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+iptables --wait --table nat --append OUTPUT --protocol tcp --dport 80 --jump REDIRECT --to-port 8080
+
+# Ensure everything continues to start at next startup
+echo "#!/bin/sh -e
+
+iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+iptables --wait --table nat --append OUTPUT --protocol tcp --dport 80 --jump REDIRECT --to-port 8080
+
+service puppet-service start
+
+exit 0
+" > /etc/rc.local
