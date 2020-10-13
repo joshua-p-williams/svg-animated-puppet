@@ -74,7 +74,8 @@ echo "#@lxpanel --profile LXDE-pi
 @xset -dpms
 
 # Browser 1
-@/usr/bin/chromium-browser --check-for-update-interval=31536000 --incognito --kiosk http://localhost/bot
+#@/usr/bin/chromium-browser --check-for-update-interval=31536000 --incognito --kiosk http://localhost/bot
+@$DIR/scripts/chromium_kiosk.sh
 " > /home/pi/.config/lxsession/LXDE-pi/autostart
 chown -R pi:pi /home/pi/.config/lxsession/
 
