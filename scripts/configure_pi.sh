@@ -2,13 +2,14 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
 cd $DIR
 
-# Install voices
+# Install voices and other dependencies
 apt update -y
-apt install espeak-ng --fix-missing -y
+apt install espeak-ng ttf-mscorefonts-installer unclutter x11-xserver-utils --fix-missing -y
 wget http://steinerdatenbank.de/software/mbrola3.0.1h_armhf.deb
 dpkg -i mbrola3.0.1h_armhf.deb
 rm mbrola3.0.1h_armhf.deb
 apt install mbrola mbrola-en1 -y
+apt autoremove -y
 ln -s /usr/bin/espeak-ng /usr/bin/espeak
 
 # Install the node forever script for the service
@@ -55,3 +56,65 @@ service puppet-service start
 
 exit 0
 " > /etc/rc.local
+
+# Enable ssh
+systemctl enable ssh
+systemctl start ssh
+
+# Configure kiosk
+mkdir -p /home/pi/.config/lxsession/LXDE-pi
+echo "#@lxpanel --profile LXDE-pi
+@pcmanfm --desktop --profile LXDE-pi
+#@xscreensaver -no-splash
+@point-rpi
+
+@unclutter
+@xset s off
+@xset s noblank
+@xset -dpms
+
+# Browser 1
+@/usr/bin/chromium-browser --check-for-update-interval=31536000 --incognito --kiosk http://localhost/bot
+" > /home/pi/.config/lxsession/LXDE-pi/autostart
+chown -R pi:pi /home/pi/.config/lxsession/
+
+# Disable screensaver
+xset s off
+xset -dpms
+xset s noblank
+echo "
+
+[SeatDefaults]
+xserver-command=X -s 0 -dpms
+
+" >> /etc/lightdm/lightdm.conf
+
+# Fix desktop
+mv /etc/xdg/pcmanfm/LXDE-pi/desktop-items-0.conf /etc/xdg/pcmanfm/LXDE-pi/desktop-items-0.bak
+mv /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.bak
+
+echo "[*]
+desktop_bg=#000000000000
+desktop_shadow=#000000000000
+desktop_fg=#e8e8e8e8e8e8
+desktop_font=PibotoLt 12
+wallpaper=/usr/share/rpd-wallpaper/clouds.jpg
+wallpaper_mode=color
+show_documents=0
+show_trash=0
+show_mounts=0
+" > /etc/xdg/pcmanfm/LXDE-pi/desktop-items-0.conf
+
+echo "[*]
+desktop_bg=#000000000000
+desktop_shadow=#000000000000
+desktop_fg=#e8e8e8e8e8e8
+desktop_font=PibotoLt 12
+wallpaper=/usr/share/rpd-wallpaper/clouds.jpg
+wallpaper_mode=color
+show_documents=0
+show_trash=0
+show_mounts=0
+" > /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf
+
+chown -R pi:pi /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf

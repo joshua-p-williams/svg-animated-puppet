@@ -66,8 +66,8 @@ We will create the puppet in 4 steps;
 
 * Install Operating System
 * Configure `SVG Animated Puppet`
-* Establish Kiosk
 * Setup remote accessibility
+* Establish Kiosk
 
 At the time of this writing the, this example was built using a Raspberry Pi running [Raspberry Pi OS Buster Desktop August 20th 2020 (2020-08-20-raspios-buster-armhf-full.zip)](https://www.raspberrypi.org/downloads/raspberry-pi-os/).  If these instructions are no longer found to be accurate, it might be possible to find updated instructions via a searching engine search using keywords such as `raspberry pi fullscreen browser kiosk`.
 
@@ -81,15 +81,15 @@ On first boot of the Raspberry Pi, you will be booted into the desktop and will 
 
 ### Configure SVG Animated Puppet
 
-To set up the puppet application run the following commands.
-This will;
+After installing the operating system, your first boot of the raspberry pi will prompt you for things such as your wireless config etc.. After which it will eventually boot to the desktop with an initial setup screen.  Follow the prompts to establish language and location and perform the necessary updates etc..
+
+We will now configure the bot.
 
 1. Clone the application to your pi
-2. Set up port redirection
-
-> The SVG Animated puppet runs on port `8080` by default, as port `80` is considered a priviledged port requiring elevated priviledges (`sudo`) in order to run.  We will configure port `80` to redirect to port `8080`.
-
-3. Configure the puppet application to run at startup
+2. Set up all the dependencies (voices etc..)
+3. Set to run as a service
+4. Set up port redirection
+5. Configure the pi to run as a kiosk
 
 
 ```bash
@@ -99,3 +99,33 @@ cd svg-animated-puppet
 npm install
 sudo ./scripts/configure_pi.sh
 ```
+
+> The SVG Animated puppet runs on port `8080` by default, as port `80` is considered a priviledged port requiring elevated priviledges (`sudo`) in order to run.  We will configure port `80` to redirect to port `8080`.
+
+### Enable Remote Connectivity
+
+> If you ran the `sudo ./scripts/configure_pi.sh` script above you can skip this step as `ssh` will already be configured for you.
+
+In the next step, we will disable a lot of the default desktop functionality.  This will require us to ensure another means of connecting to the raspberry pi, other than interacting with the desktop.  We will enable `ssh`.  The original instructions for this can be found in the raspberry pi documentation at [DOCUMENTATION > REMOTE-ACCESS > SSH](https://www.raspberrypi.org/documentation/remote-access/ssh/).
+
+1. Enter `sudo raspi-config` in a terminal window
+2. Select `Interfacing Options`
+3. Navigate to and select `SSH`
+4. Choose `Yes`
+5. Select `Ok`
+6. Choose `Finish`
+
+You can now connect remotely to your pi from a seperate computer as long as you know it's IP address.
+
+```bash
+ssh pi@<your pis ip address>
+```
+
+### Establish Kiosk
+
+> If you ran the `sudo ./scripts/configure_pi.sh` script above you can skip this step as this has already been configured for you.
+
+While the normal OS installation presents a desktop, we want this raspberry pi to serve only 1 purpose, rendering the full screen page of the bot.  For this will will need to disable much of the desktop functionality such the desktop itself, screensavers, etc..
+
+#### Disable Screensaver
+
