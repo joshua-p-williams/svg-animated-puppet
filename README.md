@@ -97,8 +97,8 @@ cd /home/pi
 git clone https://github.com/jwilliamsnephos/svg-animated-puppet.git
 cd svg-animated-puppet
 npm install
-sudo ./scripts/config_pi_puppet.sh
 sudo ./scripts/config_pi_accesspoint.sh
+sudo ./scripts/config_pi_puppet.sh
 sudo reboot
 ```
 

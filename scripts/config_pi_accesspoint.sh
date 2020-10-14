@@ -1,7 +1,10 @@
 #!/bin/bash
 
 # Install hostapd and dnsmasq
-apt install hostapd dnsmasq bridge-utils
+apt update -y
+apt install hostapd dnsmasq bridge-utils -y
+
+# Stop the services so we can operate on it's configuration
 systemctl stop hostapd
 systemctl stop dnsmasq
 
