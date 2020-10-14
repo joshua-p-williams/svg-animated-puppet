@@ -97,7 +97,9 @@ cd /home/pi
 git clone https://github.com/jwilliamsnephos/svg-animated-puppet.git
 cd svg-animated-puppet
 npm install
-sudo ./scripts/configure_pi.sh
+sudo ./scripts/config_pi_puppet.sh
+sudo ./scripts/config_pi_accesspoint.sh
+sudo reboot
 ```
 
 > The SVG Animated puppet runs on port `8080` by default, as port `80` is considered a priviledged port requiring elevated priviledges (`sudo`) in order to run.  We will configure port `80` to redirect to port `8080`.

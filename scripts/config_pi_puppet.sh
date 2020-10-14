@@ -47,15 +47,12 @@ iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
 iptables --wait --table nat --append OUTPUT --protocol tcp --dport 80 --jump REDIRECT --to-port 8080
 
 # Ensure everything continues to start at next startup
-echo "#!/bin/sh -e
-
-iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
-iptables --wait --table nat --append OUTPUT --protocol tcp --dport 80 --jump REDIRECT --to-port 8080
-
-service puppet-service start
-
-exit 0
-" > /etc/rc.local
+exitLineNo=`grep -n "exit 0" /etc/rc.local | tail -1 | cut -d: -f1`
+sudo sed -i "${exitLineNo}s/^/\n/" /etc/rc.local
+sudo sed -i "${exitLineNo}s/^/service puppet-service start\n/" /etc/rc.local
+sudo sed -i "${exitLineNo}s/^/\n/" /etc/rc.local
+sudo sed -i "${exitLineNo}s/^/iptables --wait --table nat --append OUTPUT --protocol tcp --dport 80 --jump REDIRECT --to-port 8080\n/" /etc/rc.local
+sudo sed -i "${exitLineNo}s/^/iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080\n/" /etc/rc.local
 
 # Enable ssh
 systemctl enable ssh
@@ -90,7 +87,7 @@ xserver-command=X -s 0 -dpms
 
 " >> /etc/lightdm/lightdm.conf
 
-# Fix desktop
+# Hide desktop and background and icons
 mv /etc/xdg/pcmanfm/LXDE-pi/desktop-items-0.conf /etc/xdg/pcmanfm/LXDE-pi/desktop-items-0.bak
 mv /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.bak
 
