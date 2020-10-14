@@ -52,7 +52,7 @@ sudo sed -i "${exitLineNo}s/^/\n/" /etc/rc.local
 sudo sed -i "${exitLineNo}s/^/service puppet-service start\n/" /etc/rc.local
 sudo sed -i "${exitLineNo}s/^/\n/" /etc/rc.local
 sudo sed -i "${exitLineNo}s/^/iptables --wait --table nat --append OUTPUT --protocol tcp --dport 80 --jump REDIRECT --to-port 8080\n/" /etc/rc.local
-sudo sed -i "${exitLineNo}s/^/iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080\n/" /etc/rc.local
+#sudo sed -i "${exitLineNo}s/^/iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080\n/" /etc/rc.local
 
 # Enable ssh
 systemctl enable ssh
@@ -71,7 +71,7 @@ echo "#@lxpanel --profile LXDE-pi
 @xset -dpms
 
 # Browser 1
-#@/usr/bin/chromium-browser --check-for-update-interval=31536000 --incognito --kiosk http://localhost/bot
+#@/usr/bin/chromium-browser --check-for-update-interval=31536000 --incognito --kiosk http://localhost:8080/bot
 @$DIR/scripts/chromium_kiosk.sh
 " > /home/pi/.config/lxsession/LXDE-pi/autostart
 chown -R pi:pi /home/pi/.config/lxsession/
@@ -89,7 +89,6 @@ xserver-command=X -s 0 -dpms
 
 # Hide desktop and background and icons
 mv /etc/xdg/pcmanfm/LXDE-pi/desktop-items-0.conf /etc/xdg/pcmanfm/LXDE-pi/desktop-items-0.bak
-mv /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.bak
 
 echo "[*]
 desktop_bg=#000000000000
@@ -103,7 +102,10 @@ show_trash=0
 show_mounts=0
 " > /etc/xdg/pcmanfm/LXDE-pi/desktop-items-0.conf
 
-echo "[*]
+if [[ -f "/home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf" ]]; then
+    mv /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.bak
+
+    echo "[*]
 desktop_bg=#000000000000
 desktop_shadow=#000000000000
 desktop_fg=#e8e8e8e8e8e8
@@ -115,4 +117,6 @@ show_trash=0
 show_mounts=0
 " > /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf
 
-chown -R pi:pi /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf
+
+    chown -R pi:pi /home/pi/.config/pcmanfm/LXDE-pi/desktop-items-0.conf
+fi
