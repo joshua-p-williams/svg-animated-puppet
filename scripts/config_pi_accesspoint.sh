@@ -40,7 +40,7 @@ wpa_key_mgmt=WPA-PSK
 wpa_pairwise=TKIP
 rsn_pairwise=CCMP
 ssid=bot
-wpa_passphrase=bot
+wpa_passphrase=letmein123
 " > /etc/hostapd/hostapd.conf
 
 # Specify the configuration for our host access point
@@ -48,6 +48,11 @@ echo "
 
 DAEMON_CONF="/etc/hostapd/hostapd.conf"
 " >> /etc/default/hostapd
+
+
+exit 1
+exit 1
+exit 1
 
 # Set up traffic forwarding (in case they want to use this as a bridge to the LAN)
 echo "
