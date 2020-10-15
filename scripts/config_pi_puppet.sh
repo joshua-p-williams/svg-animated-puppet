@@ -44,15 +44,15 @@ service puppet-service start
 
 # Redirect port 80 to port 8080
 iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
-iptables --wait --table nat --append OUTPUT --protocol tcp --dport 80 --jump REDIRECT --to-port 8080
+#iptables --wait --table nat --append OUTPUT --protocol tcp --dport 80 --jump REDIRECT --to-port 8080
 
 # Ensure everything continues to start at next startup
 exitLineNo=`grep -n "exit 0" /etc/rc.local | tail -1 | cut -d: -f1`
-sudo sed -i "${exitLineNo}s/^/\n/" /etc/rc.local
-sudo sed -i "${exitLineNo}s/^/service puppet-service start\n/" /etc/rc.local
-sudo sed -i "${exitLineNo}s/^/\n/" /etc/rc.local
-sudo sed -i "${exitLineNo}s/^/iptables --wait --table nat --append OUTPUT --protocol tcp --dport 80 --jump REDIRECT --to-port 8080\n/" /etc/rc.local
-#sudo sed -i "${exitLineNo}s/^/iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080\n/" /etc/rc.local
+sed -i "${exitLineNo}s/^/\n/" /etc/rc.local
+sed -i "${exitLineNo}s/^/service puppet-service start\n/" /etc/rc.local
+sed -i "${exitLineNo}s/^/\n/" /etc/rc.local
+#sudo sed -i "${exitLineNo}s/^/iptables --wait --table nat --append OUTPUT --protocol tcp --dport 80 --jump REDIRECT --to-port 8080\n/" /etc/rc.local
+sed -i "${exitLineNo}s/^/iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080\n/" /etc/rc.local
 
 # Enable ssh
 systemctl enable ssh
