@@ -41,12 +41,14 @@ netfilter-persistent save
 # Configure the DHCP and DNS services for the wireless network
 mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
 
-echo "interface=wlan0 # Listening interface
+echo "# Listening interface
+interface=wlan0
+# Pool of IP addresses served via DHCP
 dhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h
-                # Pool of IP addresses served via DHCP
-domain=wlan     # Local wireless DNS domain
+# Local wireless DNS domain
+domain=app
+# Alias for this router
 address=/bot.app/192.168.4.1
-                # Alias for this router
 " > /etc/dnsmasq.conf
 
 # Ensure wireless operation
