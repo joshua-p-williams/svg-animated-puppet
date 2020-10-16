@@ -87,6 +87,10 @@ xserver-command=X -s 0 -dpms
 
 " >> /etc/lightdm/lightdm.conf
 
+# Change splash screen
+mv /usr/share/plymouth/themes/pix/splash.png /usr/share/plymouth/themes/pix/splash.old
+cp $DIR/public/img/splash.png /usr/share/plymouth/themes/pix/
+
 # Hide desktop and background and icons
 mv /etc/xdg/pcmanfm/LXDE-pi/desktop-items-0.conf /etc/xdg/pcmanfm/LXDE-pi/desktop-items-0.bak
 
