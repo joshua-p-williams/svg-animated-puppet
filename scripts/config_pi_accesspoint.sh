@@ -46,9 +46,9 @@ interface=wlan0
 # Pool of IP addresses served via DHCP
 dhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h
 # Local wireless DNS domain
-domain=app
+domain=bot
 # Alias for this router
-address=/bot.app/192.168.4.1
+address=/app.bot/192.168.4.1
 " > /etc/dnsmasq.conf
 
 # Ensure wireless operation

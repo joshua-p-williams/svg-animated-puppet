@@ -70,7 +70,7 @@ These instructions are for building a stand-alone puppet using a single board co
 
 The Raspberry Pi is commonly configured to run as a desktop computer by default.  We will modify it to run as a `kiosk` and a wireless access point.  It will run the puppet in full screen immediately after booting up as a full screen view of the puppets face.  We will also configure it so it will broadcast a wifi signal that can be connected to by another device (such as your phone or a laptop) which can be used to control the puppet.
 
-After it is set up you will simply be able to connect it to a TV / Monitor and it will begin to broadcast a wireless connection named `bot` with the default password of `letmein123`.  After configuring the pi, and connecting to it from another computer, you can open a browser window to [http://bot.app/](http://bot.app/) where you will be presented with the puppet master controls for operating the puppet.
+After it is set up you will simply be able to connect it to a TV / Monitor and it will begin to broadcast a wireless connection named `bot` with the default password of `letmein123`.  After configuring the pi, and connecting to it from another computer, you can open a browser window to [http://app.bot/](http://app.bot/) where you will be presented with the puppet master controls for operating the puppet.
 
 We will create the puppet in 2 steps;
 
@@ -121,6 +121,7 @@ After connecting the following commands are used to upgrade your puppet to the l
 
 ```bash
 cd /home/pi/svg-animated-puppet
+git checkout .
 git fetch -p && git pull
 npm install
 sudo reboot
