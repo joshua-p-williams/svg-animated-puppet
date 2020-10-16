@@ -2,9 +2,17 @@
 
 This is an interactive web-based animated puppet.  It will provide one URL for the `bot`, which is an SVG image that has various animations controlled by another page `index` which contains the puppet master controls.
 
-![Puppet Master Controls](./public/img/puppet_master_controls.png "Puppet Master Controls")
+**Puppet Face**
+
+The following is an example of what the bot looks like.
 
 ![Bot](./public/img/bot.gif "Bot")
+
+**Puppet Master Controls**
+
+The following is what is presented to the `puppet master` allowing for remote control of the bot.
+
+![Puppet Master Controls](./public/img/puppet_master_controls.png "Puppet Master Controls")
 
 ## Running in Development
 
@@ -60,37 +68,33 @@ These instructions are for building a stand-alone puppet using a single board co
 
 ## Configuring Raspberry Pi
 
-The Raspberry Pi will be configured to run as a `kiosk`.  The raspberry pi can be used as a desktop computer, but we will make it so that it runs the puppet and boots up immediately to a full screen view which will be the puppets face.  We will also configure it so it will broadcast a wifi signal that can be connected to by another device which can be used to control the puppet.
+The Raspberry Pi is commonly configured to run as a desktop computer by default.  We will modify it to run as a `kiosk` and a wireless access point.  It will run the puppet in full screen immediately after booting up as a full screen view of the puppets face.  We will also configure it so it will broadcast a wifi signal that can be connected to by another device (such as your phone or a laptop) which can be used to control the puppet.
 
-We will create the puppet in 4 steps;
+After it is set up you will simply be able to connect it to a TV / Monitor and it will begin to broadcast a wireless connection named `bot` with the default password of `letmein123`.  After configuring the pi, and connecting to it from another computer, you can open a browser window to [http://bot.app/](http://bot.app/) where you will be presented with the puppet master controls for operating the puppet.
+
+We will create the puppet in 2 steps;
 
 * Install Operating System
 * Configure `SVG Animated Puppet`
-* Setup remote accessibility
-* Establish Kiosk
 
 At the time of this writing the, this example was built using a Raspberry Pi running [Raspberry Pi OS Buster Desktop August 20th 2020 (2020-08-20-raspios-buster-armhf-full.zip)](https://www.raspberrypi.org/downloads/raspberry-pi-os/).  If these instructions are no longer found to be accurate, it might be possible to find updated instructions via a searching engine search using keywords such as `raspberry pi fullscreen browser kiosk`.
 
-### Installing / Configuring Operating System
+There are 2 scripts that you can refer to with instructions that when were used to configure the puppet.
 
-https://blog.gordonturner.com/2020/06/30/raspberry-pi-full-screen-browser-2020-05-27-raspios-buster/
+* `./scripts/config_pi_puppet.sh` - Set's up the puppet
+* `./scripts/config_pi_accesspoint.sh` - Configures the wireless access point.
+
+## Installing / Configuring Operating System
 
 Refer to the [Official Instructions](https://www.raspberrypi.org/documentation/installation/installing-images/README.md) on installing the operating system for the Raspberry Pi.
 
-On first boot of the Raspberry Pi, you will be booted into the desktop and will be presented with a **Welcome to Raspberry Pi** window.  Be sure to configure your location details appropriately, 
+On first boot of the Raspberry Pi, you will be booted into the desktop and will be presented with a **Welcome to Raspberry Pi** window that will need to be completed.  Remember the password you set up, as this will be required if you wish to upgrade or perform other maintenance at a later time.
 
-### Configure SVG Animated Puppet
+## Configure SVG Animated Puppet
 
 After installing the operating system, your first boot of the raspberry pi will prompt you for things such as your wireless config etc.. After which it will eventually boot to the desktop with an initial setup screen.  Follow the prompts to establish language and location and perform the necessary updates etc..
 
-We will now configure the bot.
-
-1. Clone the application to your pi
-2. Set up all the dependencies (voices etc..)
-3. Set to run as a service
-4. Set up port redirection
-5. Configure the pi to run as a kiosk
-
+We will now configure the bot with the provided scripts.
 
 ```bash
 cd /home/pi
@@ -103,32 +107,21 @@ sudo ./scripts/config_pi_accesspoint.sh
 sudo reboot
 ```
 
-> The SVG Animated puppet runs on port `8080` by default, as port `80` is considered a priviledged port requiring elevated priviledges (`sudo`) in order to run.  We will configure port `80` to redirect to port `8080`.
+## Maintenance / Upgrading
 
-### Enable Remote Connectivity
+The puppet is configured with `ssh` access so you can perform maintenance on the bot app remotely at a later time.  After connecting to the bot via the wifi access point, you can connect an ethernet cable to an internet connected network and run the following.
 
-> If you ran the `sudo ./scripts/configure_pi.sh` script above you can skip this step as `ssh` will already be configured for you.
-
-In the next step, we will disable a lot of the default desktop functionality.  This will require us to ensure another means of connecting to the raspberry pi, other than interacting with the desktop.  We will enable `ssh`.  The original instructions for this can be found in the raspberry pi documentation at [DOCUMENTATION > REMOTE-ACCESS > SSH](https://www.raspberrypi.org/documentation/remote-access/ssh/).
-
-1. Enter `sudo raspi-config` in a terminal window
-2. Select `Interfacing Options`
-3. Navigate to and select `SSH`
-4. Choose `Yes`
-5. Select `Ok`
-6. Choose `Finish`
-
-You can now connect remotely to your pi from a seperate computer as long as you know it's IP address.
+> **Note** - The following commands will require you to supply the password you originally configured your pi with.  If you didn't change the password, try using `raspberry` or `bot`.
 
 ```bash
-ssh pi@<your pis ip address>
+ssh pi@192.168.4.1
 ```
 
-### Establish Kiosk
+After connecting the following commands are used to upgrade your puppet to the latest version.
 
-> If you ran the `sudo ./scripts/configure_pi.sh` script above you can skip this step as this has already been configured for you.
-
-While the normal OS installation presents a desktop, we want this raspberry pi to serve only 1 purpose, rendering the full screen page of the bot.  For this will will need to disable much of the desktop functionality such the desktop itself, screensavers, etc..
-
-#### Disable Screensaver
-
+```bash
+cd /home/pi/svg-animated-puppet
+git fetch -p && git pull
+npm install
+sudo reboot
+```
