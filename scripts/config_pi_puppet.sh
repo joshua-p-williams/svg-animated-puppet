@@ -12,6 +12,9 @@ apt install mbrola mbrola-en1 -y
 apt autoremove -y
 ln -s /usr/bin/espeak-ng /usr/bin/espeak
 
+# Set up the environment variables for the application
+cp $DIR/.env.example $DIR/.env
+
 # Install the node forever script for the service
 npm install forever -g
 

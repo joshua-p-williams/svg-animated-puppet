@@ -54,7 +54,6 @@ $(function () {
   });  
 
   $('#activate-countdown-button').click(function () {
-      var message = $.trim($('#message').val());
       $.ajax({
           url: '/activate_countdown',
           type: 'POST',
@@ -64,4 +63,17 @@ $(function () {
           }
       });
   });
+
+  $('#shutdown-button').click(function () {
+    if (confirm('Are you sure you want to shutdown the bot?')) {
+      $.ajax({
+          url: '/shutdown',
+          type: 'POST',
+          dataType: 'json',
+          success: function (response) {
+            console.log(response);
+          }
+      });
+    }    
+});
 });
