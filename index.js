@@ -20,7 +20,7 @@ let relay = null;
 if (relayPin) {
   let pinNum = Number(relayPin);
   if (pinNum != NaN && pinNum) {
-    relay = Gpio(pinNum, 'out');
+    relay = new Gpio(pinNum, 'out');
   }
 }
 
@@ -77,6 +77,24 @@ let sound = function (file) {
   executeCommand(soundCommand + ' public/sound/' + file);
 };
 
+let setRelayState = function (state) {
+  if (relay) {
+    console.log('Relay state set to ' + state);
+    relay.writeSync(state);
+  }
+};
+
+let enableRelayFor = function (delay) {
+  if (relay) {
+    setRelayState(1);
+
+    setTimeout(function () {
+      relay.writeSync(0);
+    }, delay);
+  }
+};
+
+
 
 // API's
 app.post('/send_command', function (req, res) {
@@ -101,18 +119,14 @@ app.post('/send_speech', function (req, res) {
 });
 
 app.post('/activate_countdown', function (req, res) {
-  relay.writeSync(1);
+
+  enableRelayFor(10000);
 
   sound('activate_countdown.wav');
 
   console.log('Countdown Initiated');
 
   io.emit('activate-countdown');
-
-  // Wait 10 seconds and disable the relay
-  setTimeout(function () {
-    relay.writeSync(0);
-  }, 10000);
 
   res.send({
     'status': 'OK'
