@@ -19,6 +19,7 @@ The following is what is presented to the `puppet master` allowing for remote co
 To run locally on your machine, make sure you have `node` and `npm` installed, then run the following.
 
 ```bash
+sudo apt install build-essential
 git clone https://github.com/jwilliamsnephos/svg-animated-puppet.git
 cd svg-animated-puppet
 npm install
@@ -32,19 +33,27 @@ Now you can open a browser to [http://localhost:8080/](http://localhost:8080/), 
 The application can be configured with the following variables, supplied as either environment variables or via an `.env` file at the root of the project (see `.env.example` for a sample file).
 
 * `PORT` - The port the node app will listen on *(defaults to 8080)*
-* `SHUTDOWN_COMMAND` - If you want to allow a `Shutdown` button to be enabled.  Useful when using the puppet on a raspberry pi. *(defaults to `null`)
+* `SHUTDOWN_COMMAND` - If you want to allow a `Shutdown` button to be enabled.  Useful when using the puppet on a raspberry pi. *(defaults to `null`)*
 * `SPEAK_COMMAND` - The command to use for generating speech.  The message to speak will be provided as a prameter to this command *(defaults to "espeak -v mb-en1+f3 -s 100")*
 * `SOUND_COMMAND` - The command to use for playing sound files.  The filename will be supplied as a paramter to this command *(defaults to aplay)*
+* `RELAY_PIN` - The pin that is used to power own an external relay for running peripherals *(defaults to null)*
 
 ## Technology Stack
 
-The technology stack used includes
+Some of the coponents might require additional build tools;
+
+```bash
+sudo apt install build-essential
+```
+
+The technology stack used includes;
 
 * [Node.js](https://nodejs.org/en/) - For web services and server side operations
 * [Express.js](https://expressjs.com/) - As the web application framework
 * [ejs (Embedded JavaScript templates)](https://github.com/mde/ejs) - The express templating engine used
 * [Socket.IO](https://socket.io/) - For realtime socket interactions between the `bot` and the `puppet master controls`
 * [SVG](https://svgjs.com/docs/3.0/) - As our SVG image manipulation framework
+* [onoff](https://github.com/fivdi/onoff) - For accessing GPIO ports when used on the raspberry pi.
 
 
 # Speech / Voices

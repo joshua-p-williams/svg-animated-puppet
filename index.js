@@ -1,17 +1,28 @@
 require('dotenv').config();
 
-let express = require('express');
-let bodyParser = require('body-parser');
-let app = express();
-let http = require('http').Server(app);
-let io = require('socket.io')(http);
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const Gpio = require('onoff').Gpio;
 
-let port = process.env.PORT || 8080;
-let shutdownCommand = process.env.SHUTDOWN_COMMAND || null;
-let speakCommand = process.env.SPEAK_COMMAND || 'espeak -v mb-en1+f3 -s 100';
-let soundCommand = process.env.SOUND_COMMAND || 'aplay';
+const port = process.env.PORT || 8080;
+const shutdownCommand = process.env.SHUTDOWN_COMMAND || null;
+const speakCommand = process.env.SPEAK_COMMAND || 'espeak -v mb-en1+f3 -s 100';
+const soundCommand = process.env.SOUND_COMMAND || 'aplay';
+const relayPin = process.env.RELAY_PIN || null;
 
-let allowShutdown = !!shutdownCommand;
+const allowShutdown = !!shutdownCommand;
+
+// Establish a relay
+let relay = null;
+if (relayPin) {
+  let pinNum = Number(relayPin);
+  if (pinNum != NaN && pinNum) {
+    relay = Gpio(pinNum, 'out');
+  }
+}
 
 // Start the Server
 http.listen(port, function () {
@@ -90,12 +101,22 @@ app.post('/send_speech', function (req, res) {
 });
 
 app.post('/activate_countdown', function (req, res) {
+  relay.writeSync(1);
+
   sound('activate_countdown.wav');
+
   console.log('Countdown Initiated');
+
+  io.emit('activate-countdown');
+
+  // Wait 10 seconds and disable the relay
+  setTimeout(function () {
+    relay.writeSync(0);
+  }, 10000);
+
   res.send({
     'status': 'OK'
   });
-  io.emit('activate-countdown');
 });
 
 app.post('/shutdown', function (req, res) {
