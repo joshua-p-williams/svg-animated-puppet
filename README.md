@@ -126,6 +126,12 @@ sudo ./scripts/config_pi_accesspoint.sh
 sudo reboot
 ```
 
+## Connecting External Peripherals
+
+The puppet will push 3.3 volts on `RELAY_PIN` *(default is 21 on the pi)* when the countdown sequence is active.  This is used to power a relay, such as the [Power Switch Tail](https://www.adafruit.com/product/2935), which can be used to run external lighting, etc..  To change the pin used specify a the pin you wish to use in the `RELAY_PIN` environment variable in the `.env` file.
+
+Refer to the [GPIO Documentation](https://www.raspberrypi.org/documentation/usage/gpio/) for pin locations on your raspberry pi.
+
 ## Maintenance / Upgrading
 
 The puppet is configured with `ssh` access so you can perform maintenance on the bot app remotely at a later time.  After connecting to the bot via the wifi access point, you can connect an ethernet cable to an internet connected network and run the following.
