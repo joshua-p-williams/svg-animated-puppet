@@ -42,7 +42,7 @@ The technology stack used includes
 
 * [Node.js](https://nodejs.org/en/) - For web services and server side operations
 * [Express.js](https://expressjs.com/) - As the web application framework
-* [ejs (Embedded JavaScript templates)](hhttps://github.com/mde/ejs) - The express templating engine used
+* [ejs (Embedded JavaScript templates)](https://github.com/mde/ejs) - The express templating engine used
 * [Socket.IO](https://socket.io/) - For realtime socket interactions between the `bot` and the `puppet master controls`
 * [SVG](https://svgjs.com/docs/3.0/) - As our SVG image manipulation framework
 
