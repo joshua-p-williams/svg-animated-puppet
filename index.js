@@ -85,13 +85,13 @@ app.post('/send_speech', function (req, res) {
   speak(message);
 });
 
-app.post('/time_machine', function (req, res) {
-  sound('time_machine.wav');
-  console.log('Time travel initiated');
+app.post('/activate_countdown', function (req, res) {
+  sound('activate_countdown.wav');
+  console.log('Countdown Initiated');
   res.send({
     'status': 'OK'
   });
-  io.emit('time-machine');
+  io.emit('activate-countdown');
 });
 
 
