@@ -17,7 +17,7 @@
         <img class="mb-4" src="img/icon.svg" alt="" width="200">
         <h1 class="h3 mb-3 font-weight-normal">Bot</h1>
         <p>
-          Use the following controls to manipulate the <code>bot</code>.<br />
+          Use the following controls to manipulate the bot.<br />
           You can open a new bot instance by clicking <a href="/bot" target="_blank">here</a>.
         </p>
       </div>
@@ -29,13 +29,16 @@
       </div>
 
       <button id="activate-countdown-button" class="btn btn-lg btn-secondary btn-block">Activate Countdown</button>
-      <button id="reset-button" class="btn btn-lg btn-danger btn-block">Reset</button>
+      <button id="reset-button" class="btn btn-lg btn-warning btn-block">Reset</button>
+      <% if (allowShutdown) { %>
+        <button id="shutdown-button" class="btn btn-lg btn-danger btn-block">Shutdown</button>
+      <% } %>
 
     </div>
     <!-- Optional JavaScript -->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/index.js"></script>
+    <script src="js/libs/jquery.min.js"></script>
+    <script src="js/libs/popper.min.js"></script>
+    <script src="js/libs/bootstrap.min.js"></script>
+    <script src="js/controls.js"></script>
   </body>
 </html>

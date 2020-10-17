@@ -27,12 +27,21 @@ npm run start
 
 Now you can open a browser to [http://localhost:8080/](http://localhost:8080/), you can open the bot in aseperate browser at [http://localhost:8080/bot/](http://localhost:8080/bot/).
 
+## Configuration
+
+The application can be configured with the following variables, supplied as either environment variables or via an `.env` file at the root of the project (see `.env.example` for a sample file).
+
+* `PORT` - The port the node app will listen on *(defaults to 8080)*
+* `SHUTDOWN_COMMAND` - If you want to allow a `Shutdown` button to be enabled.  Useful when using the puppet on a raspberry pi. *(defaults to `null`)* `SPEAK_COMMAND` - The command to use for generating speech.  The message to speak will be provided as a prameter to this command *(defaults to "espeak -v mb-en1+f3 -s 100")*
+* `SOUND_COMMAND` - The command to use for playing sound files.  The filename will be supplied as a paramter to this command *(defaults to aplay)*
+
 ## Technology Stack
 
 The technology stack used includes
 
 * [Node.js](https://nodejs.org/en/) - For web services and server side operations
 * [Express.js](https://expressjs.com/) - As the web application framework
+* [ejs (Embedded JavaScript templates)](hhttps://github.com/mde/ejs) - The express templating engine used
 * [Socket.IO](https://socket.io/) - For realtime socket interactions between the `bot` and the `puppet master controls`
 * [SVG](https://svgjs.com/docs/3.0/) - As our SVG image manipulation framework
 

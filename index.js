@@ -1,42 +1,17 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+require('dotenv').config();
 
-var port = process.env.PORT || 8080;
+let express = require('express');
+let bodyParser = require('body-parser');
+let app = express();
+let http = require('http').Server(app);
+let io = require('socket.io')(http);
 
-let speak = function (message) {
-  const { exec } = require("child_process");
+let port = process.env.PORT || 8080;
+let shutdownCommand = process.env.SHUTDOWN_COMMAND || null;
+let speakCommand = process.env.SPEAK_COMMAND || 'espeak -v mb-en1+f3 -s 100';
+let soundCommand = process.env.SOUND_COMMAND || 'aplay';
 
-  exec('espeak -v mb-en1+f3 -s 100 "' + message + '"', (error, stdout, stderr) => {
-      if (error) {
-          console.log(`error: ${error.message}`);
-          return;
-      }
-      if (stderr) {
-          console.log(`stderr: ${stderr}`);
-          return;
-      }
-      console.log(`stdout: ${stdout}`);
-  });
-};
-
-let sound = function (file) {
-  const { exec } = require("child_process");
-
-  exec('aplay public/sound/' + file, (error, stdout, stderr) => {
-      if (error) {
-          console.log(`error: ${error.message}`);
-          return;
-      }
-      if (stderr) {
-          console.log(`stderr: ${stderr}`);
-          return;
-      }
-      console.log(`stdout: ${stdout}`);
-  });
-};
+let allowShutdown = !!shutdownCommand;
 
 // Start the Server
 http.listen(port, function () {
@@ -44,28 +19,57 @@ http.listen(port, function () {
 });
 
 // Express Middleware
+app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-// Render Main HTML file
+// Render the controls
 app.get('/', function (req, res) {
-  res.sendFile('views/index.html', {
-    root: __dirname
+  res.render('controls', {
+    root: __dirname,
+    allowShutdown: allowShutdown,
   });
 });
 
+// Render the bot face
 app.get('/bot', function (req, res) {
-  res.sendFile('views/bot.html', {
+  res.render('bot', {
     root: __dirname
   });
 });
 
 
-// API
+// Functions
+let executeCommand = function (cmd) {
+  const { exec } = require("child_process");
+
+  exec(cmd, (error, stdout, stderr) => {
+      if (error) {
+          console.log(`error: ${error.message}`);
+          return;
+      }
+      if (stderr) {
+          console.log(`stderr: ${stderr}`);
+          return;
+      }
+      console.log(`stdout: ${stdout}`);
+  });
+};
+
+let speak = function (message) {
+  executeCommand(speakCommand + ' "' + message + '"');
+};
+
+let sound = function (file) {
+  executeCommand(soundCommand + ' public/sound/' + file);
+};
+
+
+// API's
 app.post('/send_command', function (req, res) {
-  var command = req.body.command;
+  let command = req.body.command;
   console.log(command);
   res.send({
     'status': 'OK'
@@ -75,7 +79,7 @@ app.post('/send_command', function (req, res) {
 });
 
 app.post('/send_speech', function (req, res) {
-  var message = req.body.message;
+  let message = req.body.message;
   console.log(message);
   res.send({
     'status': 'OK'
@@ -94,6 +98,15 @@ app.post('/activate_countdown', function (req, res) {
   io.emit('activate-countdown');
 });
 
+app.post('/shutdown', function (req, res) {
+  if (allowShutdown == '1') {
+    console.log('Shutting down...');
+    executeCommand(shutdownCommand);
+    res.send({
+      'status': 'OK'
+    });
+  }
+});
 
 // Socket Connection
 // UI Stuff
