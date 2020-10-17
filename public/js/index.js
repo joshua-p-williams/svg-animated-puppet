@@ -53,10 +53,10 @@ $(function () {
     }
   });  
 
-  $('#time-machine-button').click(function () {
+  $('#activate-countdown-button').click(function () {
       var message = $.trim($('#message').val());
       $.ajax({
-          url: '/time_machine',
+          url: '/activate_countdown',
           type: 'POST',
           dataType: 'json',
           success: function (response) {

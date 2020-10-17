@@ -95,9 +95,9 @@ const talk = function (sentance) {
   }
 };
 
-const timeMachine = function () {
+const activateCountdown = function () {
 
-  // Make sure to finish an existing animation timelines
+  // Make sure to finish all existing animation timelines
   satelliteDish.animate().transform({rotate: 360}).timeline().finish();
   leftCheek.animate().timeline().finish();
   rightCheek.animate().timeline().finish();
@@ -222,6 +222,6 @@ socket.on('speak', function (message) {
   talk(message);
 });  
 
-socket.on('time-machine', function () {
-  timeMachine();
+socket.on('activate-countdown', function () {
+  activateCountdown();
 });  
