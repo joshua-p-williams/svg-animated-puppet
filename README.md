@@ -34,9 +34,19 @@ The application can be configured with the following variables, supplied as eith
 
 * `PORT` - The port the node app will listen on *(defaults to 8080)*
 * `SHUTDOWN_COMMAND` - If you want to allow a `Shutdown` button to be enabled.  Useful when using the puppet on a raspberry pi. *(defaults to `null`)*
-* `SPEAK_COMMAND` - The command to use for generating speech.  The message to speak will be provided as a prameter to this command *(defaults to "espeak -v mb-en1+f3 -s 100")*
+* `SPEAK_COMMAND` - The command to use for generating speech.  The message to speak will be provided as a prameter to this command *(defaults to "espeak -v mb-en1+f3 -s 50 -p 20 ")*
 * `SOUND_COMMAND` - The command to use for playing sound files.  The filename will be supplied as a paramter to this command *(defaults to aplay)*
 * `RELAY_PIN` - The pin that is used to power own an external relay for running peripherals *(defaults to null)*
+
+## Mouth Movement Configuration
+
+The speech is run by a service seperate from the animation.  The animation of the mouth movements are a calculated simulation based on word counts and syllable counts from the text supplied.  The goal of this puppet is to generate an animation that looks good enough.  The following configurations help in tweaking the animation to match the speech.
+
+* `ANIMATION_SYLLABLE_DURATION` - The amount of time it should take to complete one syllable.
+* `ANIMATION_SYLLABLE_RAMP` - A multiplier used to decrease the syllable duration for longer syllable words.  This number will decrease the animation syllable duration for words containing more syllables (which typically roll faster off the lips and need less duration per syllable in the word).
+* `ANIMATION_SYLLABLE_DELAY` - The amount of time to delay between syllables
+* `ANIMATION_WORD_DELAY` - The amount of time to delay between words
+* `ANIMATION_SENTANCE_DELAY` - The amount of time to delay between sentances
 
 ## Technology Stack
 

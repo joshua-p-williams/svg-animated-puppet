@@ -1,5 +1,12 @@
 const socket = io();
 
+// Mouth animation variables
+let mouthSyllableDuration = animationSyllableDuration || 100;
+let mouthSyllableRamp = animationSyllableRamp || 5;
+let mouthSyllableDelay = animationSyllableDelay || 45;
+let mouthWordDelay = animationWordDelay || 55;
+let mouthSentanceDelay = animationSentanceDelay || 580;
+
 // Colors
 const grey = '#475166';
 const greyLight = '#a6aeba';
@@ -71,7 +78,7 @@ const talk = function (sentance) {
 
         for (let syllableIndex = 0; syllableIndex < syllables; syllableIndex++) {
           // How long should it take to say the syllable
-          let duration = 80 - (2 * syllableIndex);
+          let duration = mouthSyllableDuration - (mouthSyllableRamp * syllableIndex);
 
           mouth
           .animate(duration, nextDelay, 'after').plot(mouthOpened)
@@ -82,13 +89,16 @@ const talk = function (sentance) {
 
           nextDelay = 0;
           if (syllableIndex >= syllables -1) {
-            nextDelay = 55;
+            nextDelay = mouthSyllableDelay;
           }
         }
 
         // How long to pause before the next word
         if (word.includes(".") || word.includes(":") || word.includes(",")) {
-          nextDelay = 600;
+          nextDelay = mouthSentanceDelay;
+        }
+        else {
+          nextDelay = mouthWordDelay;
         }
       }
     }
