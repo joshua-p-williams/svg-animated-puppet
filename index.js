@@ -9,9 +9,15 @@ const Gpio = require('onoff').Gpio;
 
 const port = process.env.PORT || 8080;
 const shutdownCommand = process.env.SHUTDOWN_COMMAND || null;
-const speakCommand = process.env.SPEAK_COMMAND || 'espeak -v mb-en1+f3 -s 100';
+const speakCommand = process.env.SPEAK_COMMAND || 'espeak -v mb-en1+f3 -s 50 -p 20 ';
 const soundCommand = process.env.SOUND_COMMAND || 'aplay';
 const relayPin = process.env.RELAY_PIN || null;
+const animationSyllableDuration = process.env.ANIMATION_SYLLABLE_DURATION || 100;
+const animationSyllableRamp = process.env.ANIMATION_SYLLABLE_RAMP || 5;
+const animationSyllableDelay = process.env.ANIMATION_SYLLABLE_DELAY || 45;
+const animationWordDelay = process.env.ANIMATION_WORD_DELAY || 55;
+const animationSentanceDelay = process.env.ANIMATION_SENTANCE_DELAY || 580;
+
 
 const allowShutdown = !!shutdownCommand;
 
@@ -47,7 +53,12 @@ app.get('/', function (req, res) {
 // Render the bot face
 app.get('/bot', function (req, res) {
   res.render('bot', {
-    root: __dirname
+    root: __dirname,
+    animationSyllableDuration: animationSyllableDuration,
+    animationSyllableRamp: animationSyllableRamp,
+    animationSyllableDelay: animationSyllableDelay,
+    animationWordDelay: animationWordDelay,
+    animationSentanceDelay: animationSentanceDelay
   });
 });
 
