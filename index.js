@@ -144,6 +144,15 @@ app.post('/activate_countdown', function (req, res) {
   });
 });
 
+app.post('/sound_effect', function (req, res) {
+  let effect = req.body.effect;
+  console.log(effect);
+  sound(effect + '.wav');
+  res.send({
+    'status': 'OK'
+  });
+});
+
 app.post('/shutdown', function (req, res) {
   if (allowShutdown == '1') {
     console.log('Shutting down...');
