@@ -23,6 +23,23 @@ $(function () {
     }
   };
 
+  const playSoundEffect = function () {
+    var effect = $.trim($('#sound-effect').val()).toLowerCase();
+    if (effect) {
+      $.ajax({
+          url: '/sound_effect',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+              'effect': effect
+          },
+          success: function (response) {
+            console.log(response);
+          }
+      });
+    }
+  };
+
   const sendCommand = function (command) {
     if (command) {
       $.ajax({
@@ -41,6 +58,10 @@ $(function () {
 
   $('#speak-button').click(function () {
     sendSpeech();
+  });
+
+  $('#sound-effect-button').click(function () {
+    playSoundEffect();
   });
 
   $('#reset-button').click(function () {
