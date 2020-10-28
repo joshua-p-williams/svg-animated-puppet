@@ -2,8 +2,7 @@ $(function () {
 
   let lastMessage = null;
 
-  const sendSpeech = function () {
-    var message = $.trim($('#message').val());
+  const sendSpeech = function (message) {
     var speak = message || lastMessage;
     if (speak) {
       lastMessage = speak;
@@ -18,8 +17,6 @@ $(function () {
             console.log(response);
           }
       });
-
-      $('#message').val('');
     }
   };
 
@@ -56,9 +53,66 @@ $(function () {
     }
   };
 
-  $('#speak-button').click(function () {
-    sendSpeech();
+  const handleSpeakButton = function () {
+    const message = $.trim($('#message').val());
+    sendSpeech(message);
+    $('#message').val('');
+  };
+
+  const loadScriptFile = function (file) {
+    const scriptRunner = $('#script-runner');
+    scriptRunner.show();
+
+    const scriptLine = $('#script-line');
+    scriptLine.empty();
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+        const file = event.target.result;
+        const allLines = file.split(/\r\n|\n/);
+        // Reading line by line
+        allLines.forEach((line) => {
+          scriptLine.append($("<option />").val(line).text(line));
+        });
+    };
+
+    reader.onerror = (event) => {
+        alert(event.target.error.name);
+    };
+
+    reader.readAsText(file);
+  };
+
+  $('#script-file').on('change', function() {
+    const scriptFile = $('#script-file');
+    if (scriptFile.val()) {
+      const file = scriptFile.prop('files')[0];
+      loadScriptFile(file);
+    }
   });
+
+  $('#script-line-button').click(function () {
+    const scriptLine = $('#script-line');
+    const message = $.trim(scriptLine.val());
+    if (message) {
+      sendSpeech(message);
+      var currentlySelected = $('#script-line option:selected');
+      $("#script-line > option").each(function() {
+        $(this).removeAttr('selected');
+      });      
+      currentlySelected.next().attr('selected', 'selected');      
+    }
+  });
+
+  $('#speak-button').click(function () {
+    handleSpeakButton();
+  });
+
+  $('#message').keypress(function(event) {
+    if (event.keyCode == 13) {
+      handleSpeakButton();
+    }
+  });  
 
   $('#sound-effect-button').click(function () {
     playSoundEffect();
@@ -67,12 +121,6 @@ $(function () {
   $('#reset-button').click(function () {
     sendCommand('reset');
   });
-
-  $('#message').keypress(function(event) {
-    if (event.keyCode == 13) {
-      sendSpeech();
-    }
-  });  
 
   $('#activate-countdown-button').click(function () {
       $.ajax({
@@ -96,5 +144,5 @@ $(function () {
           }
       });
     }    
-});
+  });
 });

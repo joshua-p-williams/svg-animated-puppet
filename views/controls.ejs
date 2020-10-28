@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/controls.css">
 
     <title>Bot Controls</title>
   </head>
@@ -20,6 +20,16 @@
           Use the following controls to manipulate the bot.<br />
           You can open a new bot instance by clicking <a href="/bot" target="_blank">here</a>.
         </p>
+      </div>
+
+      <div class="form-group">
+        <label for="script-file">Load Script Text File</label>
+        <input type="file" class="form-control-file" id="script-file">
+        <div id="script-runner" style="display: none;">
+          <select id="script-line" class="form-control form-control-lg">
+          </select>        
+          <button id="script-line-button" class="btn btn-lg btn-primary btn-block">Speak Line</button>
+        </div>
       </div>
 
       <div class="form-label-group">
