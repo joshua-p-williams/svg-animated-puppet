@@ -145,4 +145,36 @@ $(function () {
       });
     }    
   });
+
+  $('#image-file').on('change', function() {
+    const imageFile = $('#image-file');
+    if (imageFile.val()) {
+      const file = imageFile.prop('files')[0];
+      loadImageFile(file);
+    }
+  });
+
+  const loadImageFile = function (file) {
+    const imageLoader = $('#image-loader');
+    imageLoader.show();
+
+    const imgToLoad = $('#image-to-load');
+    imgToLoad.empty();
+
+    const imgList = $('#image-list');
+
+    const imgReader = new FileReader();
+    imgReader.onload = (event) => {
+      var img = $("<img width='111' src='#'>");
+      img.attr('src', event.target.result);
+      imgList.append(img);
+    };
+
+    imgReader.onerror = (event) => {
+        alert(event.target.error.name);
+    };
+
+    imgReader.readAsDataURL(file);
+  };
+
 });
