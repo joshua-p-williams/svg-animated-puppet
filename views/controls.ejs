@@ -12,70 +12,79 @@
     <title>Bot Controls</title>
   </head>
   <body>
-    <div class="form-signin">
-      <div class="text-center mb-4">
-        <img class="mb-4" src="img/icon.svg" alt="" width="200">
-        <h1 class="h3 mb-3 font-weight-normal">Bot</h1>
-        <p>
-          Use the following controls to manipulate the bot.<br />
-          You can open a new bot instance by clicking <a href="/bot" target="_blank">here</a>.
-        </p>
+    <div class="container-full">
+      <div class="row">
+        <div class="col-md">
+          <div class="text-center mb-4">
+            <img class="mb-4" src="img/icon.svg" alt="" width="200">
+            <h1 class="h3 mb-3 font-weight-normal">Bot</h1>
+            <p>
+              Use the following controls to manipulate the bot.<br />
+              You can open a new bot instance by clicking <a href="/bot" target="_blank">here</a>.
+            </p>
+          </div>
+        </div>
       </div>
-
-      <fieldset>
-        <legend>Speech / Sounds</legend>
-    
-        <div class="form-label-group">
-          <input id="message" class="form-control" placeholder="Message to Speak" autocomplete="off" autofocus>
-          <label for="message">Message To Speak</label>
-          <button id="speak-button" class="btn btn-lg btn-primary btn-block">Speak</button>
-        </div>
-  
-        <div class="form-label-group">
-          <select id="sound-effect" class="form-control form-control-lg">
-            <option>Applause</option>
-            <option>Sad-Trombone</option>
-            <option>Rimshot</option>
-          </select>        
-          <button id="sound-effect-button" class="btn btn-lg btn-primary btn-block">Play Effect</button>
-        </div>
-
-        <div class="form-group">
-          <label for="script-file">Load a script text file</label>
-          <input type="file" class="form-control-file file-upload" id="script-file">
-          <div id="script-runner" style="display: none;">
-            <select id="script-line" class="form-control form-control-lg">
-            </select>        
-            <button id="script-line-button" class="btn btn-lg btn-primary btn-block">Speak Line</button>
-          </div>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Images / Animations</legend>
-
-        <button id="activate-countdown-button" class="btn btn-lg btn-secondary btn-block">Activate Countdown</button>
-
-        <div class="form-group">
-          <label for="image-file">Load an image</label>
-          <input type="file" class="form-control-file" id="image-file" accept=".png,.jpg,.gif,.jpeg,.bmp">
-          <div id="image-loader" style="display: none;">
-            <div id="image-list" class="image-list">
+      <div class="row">
+        <div class="col-md">
+          <fieldset>
+            <legend>Speech / Sounds</legend>
+        
+            <div class="form-label-group">
+              <input id="message" class="form-control" placeholder="Message to Speak" autocomplete="off" autofocus>
+              <label for="message">Message To Speak</label>
+              <button id="speak-button" class="btn btn-lg btn-primary btn-block">Speak</button>
             </div>
-            <button id="hide-image-button" class="btn btn-lg btn-secondary btn-block">Hide Image</button>
-          </div>
+      
+            <div class="form-label-group">
+              <select id="sound-effect" class="form-control form-control-lg">
+                <option>Applause</option>
+                <option>Sad-Trombone</option>
+                <option>Rimshot</option>
+              </select>        
+              <button id="sound-effect-button" class="btn btn-lg btn-primary btn-block">Play Effect</button>
+            </div>
+    
+            <div class="form-group">
+              <label for="script-file">Load a script text file</label>
+              <input type="file" class="form-control-file file-upload" id="script-file">
+              <div id="script-runner" style="display: none;">
+                <select id="script-line" class="form-control form-control-lg">
+                </select>        
+                <button id="script-line-button" class="btn btn-lg btn-primary btn-block">Speak Line</button>
+              </div>
+            </div>
+          </fieldset>
         </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Controls</legend>
-        <button id="reset-button" class="btn btn-lg btn-warning btn-block">Reset</button>
-        <% if (allowShutdown) { %>
-          <button id="shutdown-button" class="btn btn-lg btn-danger btn-block">Shutdown</button>
-        <% } %>
-      </fieldset>
-
+        <div class="col-md">
+          <fieldset>
+            <legend>Images / Animations</legend>
+    
+            <button id="activate-countdown-button" class="btn btn-lg btn-secondary btn-block">Activate Countdown</button>
+    
+            <div class="form-group">
+              <label for="image-file">Load an image</label>
+              <input type="file" class="form-control-file" id="image-file" accept=".png,.jpg,.gif,.jpeg,.bmp">
+              <div id="image-loader" style="display: none;">
+                <div id="image-list" class="image-list">
+                </div>
+                <button id="hide-image-button" class="btn btn-lg btn-secondary btn-block">Hide Image</button>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md">
+          <fieldset>
+            <legend>Controls</legend>
+            <button id="reset-button" class="btn btn-lg btn-warning btn-block">Reset</button>
+            <% if (allowShutdown) { %>
+              <button id="shutdown-button" class="btn btn-lg btn-danger btn-block">Shutdown</button>
+            <% } %>
+          </fieldset>
+        </div>  
+      </div>
     </div>
+
     <!-- Optional JavaScript -->
     <script src="js/libs/jquery.min.js"></script>
     <script src="js/libs/popper.min.js"></script>
