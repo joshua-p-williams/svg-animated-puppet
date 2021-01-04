@@ -9,8 +9,30 @@ body {
   -webkit-box-pack: center;
   justify-content: center;
   background-color: #000000;
+  overflow: hidden;
 }
 
 #bot-svg {
   height: 90vh;  
+}
+
+/*
+.fullscreen-container {
+  position: fixed; 
+  top: 1%; 
+  left: 1%;
+  transform: translate(-1%, -1%);
+  text-align: center;
+}
+*/
+
+.fullscreen-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.fullscreen-image {
+  height: 100vh;
 }

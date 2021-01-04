@@ -53,6 +53,20 @@ $(function () {
     }
   };
 
+  const sendImageToLoad = function (image) {
+    $.ajax({
+        url: '/load_image',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            'image': image
+        },
+        success: function (response) {
+          console.log(response);
+        }
+    });
+  };
+
   const handleSpeakButton = function () {
     const message = $.trim($('#message').val());
     sendSpeech(message);
@@ -146,6 +160,10 @@ $(function () {
     }    
   });
 
+  $('#hide-image-button').click(function () {
+    sendImageToLoad(null);
+  });
+
   $('#image-file').on('change', function() {
     const imageFile = $('#image-file');
     if (imageFile.val()) {
@@ -165,8 +183,11 @@ $(function () {
 
     const imgReader = new FileReader();
     imgReader.onload = (event) => {
-      var img = $("<img width='111' src='#'>");
+      let img = $("<img width='111' src='#'>");
       img.attr('src', event.target.result);
+      img.click( function () {
+        sendImageToLoad(this.src);
+      });
       imgList.append(img);
     };
 

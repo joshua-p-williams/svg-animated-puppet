@@ -39,7 +39,8 @@ http.listen(port, function () {
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({
-  extended: true
+  extended: true,
+  limit: '20mb'
 }));
 
 // Render the controls
@@ -105,6 +106,9 @@ let enableRelayFor = function (delay) {
   }
 };
 
+let loadImage = function (image) {
+  io.emit('load-image', image);
+};
 
 
 // API's
@@ -161,6 +165,14 @@ app.post('/shutdown', function (req, res) {
       'status': 'OK'
     });
   }
+});
+
+app.post('/load_image', function (req, res) {
+  let img = req.body.image;
+  loadImage(img);
+  res.send({
+    'status': 'OK'
+  });
 });
 
 // Socket Connection
