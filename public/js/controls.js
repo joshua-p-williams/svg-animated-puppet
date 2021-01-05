@@ -53,6 +53,20 @@ $(function () {
     }
   };
 
+  const sendImageToLoad = function (image) {
+    $.ajax({
+        url: '/load_image',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            'image': image
+        },
+        success: function (response) {
+          console.log(response);
+        }
+    });
+  };
+
   const handleSpeakButton = function () {
     const message = $.trim($('#message').val());
     sendSpeech(message);
@@ -145,4 +159,56 @@ $(function () {
       });
     }    
   });
+
+  $('#hide-image-button').click(function () {
+    clearImageSelection();
+    sendImageToLoad(null);
+  });
+
+  $('#image-file').on('change', function() {
+    const imageFile = $('#image-file');
+    if (imageFile.val()) {
+      const file = imageFile.prop('files')[0];
+      loadImageFile(file);
+    }
+  });
+
+  const selectImageFile = function (imgFile) {
+    clearImageSelection();
+    $(imgFile).addClass('selected');
+  };
+
+  const clearImageSelection = function () {
+    $('#image-list').children('img').each(function () {
+        $(this).removeClass('selected');
+    });
+  };
+
+  const loadImageFile = function (file) {
+    const imageLoader = $('#image-loader');
+    imageLoader.show();
+
+    const imgToLoad = $('#image-to-load');
+    imgToLoad.empty();
+
+    const imgList = $('#image-list');
+
+    const imgReader = new FileReader();
+    imgReader.onload = (event) => {
+      let img = $("<img width='111' src='#' class='image-to-push'>");
+      img.attr('src', event.target.result);
+      img.click( function () {
+        selectImageFile(this);
+        sendImageToLoad(this.src);
+      });
+      imgList.append(img);
+    };
+
+    imgReader.onerror = (event) => {
+        alert(event.target.error.name);
+    };
+
+    imgReader.readAsDataURL(file);
+  };
+
 });

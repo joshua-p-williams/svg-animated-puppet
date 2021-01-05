@@ -140,7 +140,7 @@ const activateCountdown = function () {
 
 SVG.on(document, 'DOMContentLoaded', function() {
 
-  const svg = SVG().addTo('body').attr({ viewBox: '0 0 640 480', id: 'bot-svg'});
+  const svg = SVG().addTo('body').attr({ viewBox: '0 0 640 480', id: 'bot-svg', class: 'bot-svg'});
   bot = svg.group();
 
   rightEar = bot.path('m95.667169,257.000446l45.832331,0c0.000129,0 0.000247,0.000048 0.000327,0.000145c0.00009,0.000097 0.00014,0.000217 0.00014,0.000362l-0.000467,49.998579c0,5.522874 -4.104066,10.00005 -9.166681,10.00005l-45.832335,0l0,0c-0.000255,0 -0.000458,-0.000228 -0.000458,-0.000503l0.000458,-49.998579l0,0c0,-5.522876 4.104064,-10.000052 9.166685,-10.000052l0,-0.000002z').fill(green).stroke({ color: greenLight, width: 3 });
@@ -235,3 +235,14 @@ socket.on('speak', function (message) {
 socket.on('activate-countdown', function () {
   activateCountdown();
 });  
+
+socket.on('load-image', function (image) {
+  if (image) {
+    $('#fullscreen-container').show();
+    $('#fullscreen-image').attr('src', image);  
+  }
+  else {
+    $('#fullscreen-container').hide();
+    $('#fullscreen-image').attr('src', '#');
+  }
+});
