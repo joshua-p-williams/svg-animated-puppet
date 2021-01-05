@@ -222,6 +222,38 @@ SVG.on(document, 'DOMContentLoaded', function() {
   }, 2000);
 });
 
+const loadImage = function (image) {
+  if (image) {
+    showText(null, null); // Hide the text
+    $('#fullscreen-img-container').show();
+    $('#fullscreen-img').attr('src', image);  
+  }
+  else {
+    $('#fullscreen-img-container').hide();
+    $('#fullscreen-img').attr('src', '#');
+  }
+};
+
+const showText = function (text, size) {
+  if (text) {
+    loadImage(null, null); // Hide the image
+
+    let fontSize = Number(size);
+    if (!fontSize || fontSize == NaN) fontSize = 100;
+    if (fontSize < 12) fontSize = 12;
+    var style = 'font-size: ' + fontSize + 'px';
+
+    $('#fullscreen-txt-container').show();
+    $('#fullscreen-txt').text(text);
+    $('#fullscreen-txt').attr('style', style);
+  }
+  else {
+    $('#fullscreen-txt-container').hide();
+    $('#fullscreen-txt').text('');
+    $('#fullscreen-txt').removeAttr('style');
+  }
+};
+
 socket.on('command', function (command) {
   if (command === 'reset') {
     location.reload(true);
@@ -234,15 +266,14 @@ socket.on('speak', function (message) {
 
 socket.on('activate-countdown', function () {
   activateCountdown();
-});  
+});
 
 socket.on('load-image', function (image) {
-  if (image) {
-    $('#fullscreen-container').show();
-    $('#fullscreen-image').attr('src', image);  
-  }
-  else {
-    $('#fullscreen-container').hide();
-    $('#fullscreen-image').attr('src', '#');
-  }
+  loadImage(image);
+});
+
+socket.on('show-text', function (payload) {
+  let text = (payload || {}).text || null;
+  let size = (payload || {}).size || null;
+  showText(text, size);
 });
