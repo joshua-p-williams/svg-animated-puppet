@@ -161,6 +161,7 @@ $(function () {
   });
 
   $('#hide-image-button').click(function () {
+    clearImageSelection();
     sendImageToLoad(null);
   });
 
@@ -171,6 +172,17 @@ $(function () {
       loadImageFile(file);
     }
   });
+
+  const selectImageFile = function (imgFile) {
+    clearImageSelection();
+    $(imgFile).addClass('selected');
+  };
+
+  const clearImageSelection = function () {
+    $('#image-list').children('img').each(function () {
+        $(this).removeClass('selected');
+    });
+  };
 
   const loadImageFile = function (file) {
     const imageLoader = $('#image-loader');
@@ -183,9 +195,10 @@ $(function () {
 
     const imgReader = new FileReader();
     imgReader.onload = (event) => {
-      let img = $("<img width='111' src='#'>");
+      let img = $("<img width='111' src='#' class='image-to-push'>");
       img.attr('src', event.target.result);
       img.click( function () {
+        selectImageFile(this);
         sendImageToLoad(this.src);
       });
       imgList.append(img);
