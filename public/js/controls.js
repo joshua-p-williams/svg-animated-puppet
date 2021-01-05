@@ -1,6 +1,7 @@
 $(function () {
 
   let lastMessage = null;
+  let textSize = 100;
 
   const sendSpeech = function (message) {
     var speak = message || lastMessage;
@@ -60,6 +61,21 @@ $(function () {
         dataType: 'json',
         data: {
             'image': image
+        },
+        success: function (response) {
+          console.log(response);
+        }
+    });
+  };
+
+  const showText = function (message, size) {
+    $.ajax({
+        url: '/show_text',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            'text': message,
+            'size': size
         },
         success: function (response) {
           console.log(response);
@@ -210,5 +226,29 @@ $(function () {
 
     imgReader.readAsDataURL(file);
   };
+
+  const showTextMessage = function () {
+    const message = $.trim($('#text-message').val());
+    showText(message, textSize);
+  };
+
+  $('#text-show-button').click(function () {
+    showTextMessage();
+  });
+
+  $('#text-clear-button').click(function () {
+    showText(null, textSize);
+  });
+
+  $('#text-size-increase-button').click(function () {
+    textSize += 10;
+    showTextMessage();
+  });
+
+  $('#text-size-decrease-button').click(function () {
+    textSize -= 10;
+    if (textSize < 12) textSize = 12;
+    showTextMessage();
+  });
 
 });

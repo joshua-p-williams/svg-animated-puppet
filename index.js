@@ -110,6 +110,14 @@ let loadImage = function (image) {
   io.emit('load-image', image);
 };
 
+let showText = function (text, size) {
+  let payload = {
+    'text': text,
+    'size': size
+  };
+
+  io.emit('show-text', payload);
+};
 
 // API's
 app.post('/send_command', function (req, res) {
@@ -170,6 +178,15 @@ app.post('/shutdown', function (req, res) {
 app.post('/load_image', function (req, res) {
   let img = req.body.image;
   loadImage(img);
+  res.send({
+    'status': 'OK'
+  });
+});
+
+app.post('/show_text', function (req, res) {
+  let text = req.body.text;
+  let size = req.body.size || 100;
+  showText(text, size);
   res.send({
     'status': 'OK'
   });
