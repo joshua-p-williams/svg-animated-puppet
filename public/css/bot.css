@@ -36,5 +36,9 @@ body {
 
 
 .fullscreen-image {
-  height: 100vh;
+  max-width: 80vw;
+  max-height: 100vh;
+  width: auto;
+  height: auto;
+  display: block;
 }
