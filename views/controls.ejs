@@ -86,6 +86,10 @@
         <div class="col-md">
           <fieldset>
             <legend>Controls</legend>
+            <% if (relayPin) { %>
+              <button id="relay-on-button" class="btn btn-lg btn-success btn-block">Relay On</button>
+              <button id="relay-off-button" class="btn btn-lg btn-danger btn-block">Relay Off</button>
+            <% } %>
             <button id="reset-button" class="btn btn-lg btn-warning btn-block">Reset</button>
             <% if (allowShutdown) { %>
               <button id="shutdown-button" class="btn btn-lg btn-danger btn-block">Shutdown</button>

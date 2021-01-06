@@ -47,6 +47,7 @@ app.use(bodyParser.urlencoded({
 app.get('/', function (req, res) {
   res.render('controls', {
     root: __dirname,
+    relayPin: relayPin,
     allowShutdown: allowShutdown,
   });
 });
@@ -187,6 +188,14 @@ app.post('/show_text', function (req, res) {
   let text = req.body.text;
   let size = req.body.size || 100;
   showText(text, size);
+  res.send({
+    'status': 'OK'
+  });
+});
+
+app.post('/set_relay', function (req, res) {
+  let state = req.body.state;
+  setRelayState(state);
   res.send({
     'status': 'OK'
   });

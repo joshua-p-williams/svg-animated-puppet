@@ -83,6 +83,20 @@ $(function () {
     });
   };
 
+  const setRelayState = function (state) {
+    $.ajax({
+        url: '/set_relay',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            'state': state
+        },
+        success: function (response) {
+          console.log(response);
+        }
+    });
+  };
+
   const handleSpeakButton = function () {
     const message = $.trim($('#message').val());
     sendSpeech(message);
@@ -150,6 +164,14 @@ $(function () {
 
   $('#reset-button').click(function () {
     sendCommand('reset');
+  });
+
+  $('#relay-on-button').click(function () {
+    setRelayState(1);
+  });
+
+  $('#relay-off-button').click(function () {
+    setRelayState(0);
   });
 
   $('#activate-countdown-button').click(function () {
